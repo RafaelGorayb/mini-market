@@ -35,13 +35,37 @@ struct Item_Quantity: Hashable  {
 }
 
 enum Item_Category: String, Codable, CaseIterable {
+    case all = "All"
     case tool = "Tool"
     case food = "Kitchen"
     case clothing = "Clothing"
     case electronics = "Electronics"
     case householdApliance = "Household Apliance"
     case cleaning = "Cleaning"
-    case unknown = "-"
+    case unknown = "Outros"
+}
+
+extension Item_Category {
+    var iconName: String {
+        switch self {
+        case .all:
+            return "square.grid.2x2.fill"
+        case .tool:
+            return "wrench.fill"
+        case .food:
+            return "fork.knife"
+        case .clothing:
+            return "tshirt.fill"
+        case .electronics:
+            return "desktopcomputer"
+        case .householdApliance:
+            return "house.fill"
+        case .cleaning:
+            return "broom"
+        case .unknown:
+            return "questionmark.circle.fill"
+        }
+    }
 }
 
 let organge1 = Color("#F16A26")
@@ -55,7 +79,7 @@ let items: [Item] = [
         category: .tool,
         createdAt: Date(),
         rating: 4,
-        price_info: Item_Price(price_perHour: 10.0, price_discount_hours_percentage: 10.0, price_perDay: 50.0, price_discount_days_percentage: 15.0)
+        price_info: Item_Price(price_perHour: 3.0, price_discount_hours_percentage: 10.0, price_perDay: 50.0, price_discount_days_percentage: 15.0)
     ),
     Item(
         name: "Panela Elétrica",
@@ -65,7 +89,7 @@ let items: [Item] = [
         category: .food,
         createdAt: Date(),
         rating: 5,
-        price_info: Item_Price(price_perHour: 5.0, price_discount_hours_percentage: 5.0, price_perDay: 20.0, price_discount_days_percentage: 10.0)
+        price_info: Item_Price(price_perHour: 2.0, price_discount_hours_percentage: 5.0, price_perDay: 20.0, price_discount_days_percentage: 10.0)
     ),
     Item(
         name: "Ferro de Passar",
@@ -85,7 +109,7 @@ let items: [Item] = [
         category: .cleaning,
         createdAt: Date(),
         rating: 4,
-        price_info: Item_Price(price_perHour: 7.0, price_discount_hours_percentage: 5.0, price_perDay: 30.0, price_discount_days_percentage: 10.0)
+        price_info: Item_Price(price_perHour: 2.0, price_discount_hours_percentage: 5.0, price_perDay: 30.0, price_discount_days_percentage: 10.0)
     ),
     Item(
         name: "Projetor",
@@ -95,7 +119,7 @@ let items: [Item] = [
         category: .electronics,
         createdAt: Date(),
         rating: 5,
-        price_info: Item_Price(price_perHour: 20.0, price_discount_hours_percentage: 10.0, price_perDay: 70.0, price_discount_days_percentage: 20.0)
+        price_info: Item_Price(price_perHour: 5.0, price_discount_hours_percentage: 10.0, price_perDay: 70.0, price_discount_days_percentage: 20.0)
     ),
     Item(
           name: "Alicate Universal",
@@ -105,7 +129,7 @@ let items: [Item] = [
           category: .tool,
           createdAt: Date(),
           rating: 4,
-          price_info: Item_Price(price_perHour: 2.5, price_discount_hours_percentage: nil, price_perDay: 8.0, price_discount_days_percentage: 5.0)
+          price_info: Item_Price(price_perHour: 0.5, price_discount_hours_percentage: nil, price_perDay: 8.0, price_discount_days_percentage: 5.0)
       ),
       Item(
           name: "Chave de Fenda",
@@ -115,7 +139,7 @@ let items: [Item] = [
           category: .tool,
           createdAt: Date(),
           rating: 3,
-          price_info: Item_Price(price_perHour: 1.5, price_discount_hours_percentage: nil, price_perDay: 5.0, price_discount_days_percentage: nil)
+          price_info: Item_Price(price_perHour: 0.5, price_discount_hours_percentage: nil, price_perDay: 5.0, price_discount_days_percentage: nil)
       ),
       Item(
           name: "Martelo de Borracha",
@@ -125,7 +149,7 @@ let items: [Item] = [
           category: .tool,
           createdAt: Date(),
           rating: 4,
-          price_info: Item_Price(price_perHour: 3.0, price_discount_hours_percentage: 5.0, price_perDay: 12.0, price_discount_days_percentage: 10.0)
+          price_info: Item_Price(price_perHour: 0.5, price_discount_hours_percentage: 5.0, price_perDay: 12.0, price_discount_days_percentage: 10.0)
       ),
       Item(
           name: "Chave Inglesa",
@@ -145,7 +169,7 @@ let items: [Item] = [
             category: .unknown,
             createdAt: Date(),
             rating: 5,
-            price_info: Item_Price(price_perHour: 5.0, price_discount_hours_percentage: nil, price_perDay: 15.0, price_discount_days_percentage: 10.0)
+            price_info: Item_Price(price_perHour: 2.0, price_discount_hours_percentage: nil, price_perDay: 15.0, price_discount_days_percentage: 10.0)
         ),
         Item(
             name: "Chapinha",
@@ -155,7 +179,7 @@ let items: [Item] = [
             category: .unknown,
             createdAt: Date(),
             rating: 5,
-            price_info: Item_Price(price_perHour: 6.0, price_discount_hours_percentage: 5.0, price_perDay: 20.0, price_discount_days_percentage: 15.0)
+            price_info: Item_Price(price_perHour: 2.0, price_discount_hours_percentage: 5.0, price_perDay: 20.0, price_discount_days_percentage: 15.0)
         ),
         Item(
             name: "Modelador de Cachos",
@@ -165,7 +189,7 @@ let items: [Item] = [
             category: .unknown,
             createdAt: Date(),
             rating: 4,
-            price_info: Item_Price(price_perHour: 7.0, price_discount_hours_percentage: nil, price_perDay: 25.0, price_discount_days_percentage: 10.0)
+            price_info: Item_Price(price_perHour: 2.0, price_discount_hours_percentage: nil, price_perDay: 25.0, price_discount_days_percentage: 10.0)
         ),
         Item(
             name: "Secador de Cabelo",
@@ -175,7 +199,7 @@ let items: [Item] = [
             category: .unknown,
             createdAt: Date(),
             rating: 4,
-            price_info: Item_Price(price_perHour: 4.0, price_discount_hours_percentage: nil, price_perDay: 12.0, price_discount_days_percentage: 5.0)
+            price_info: Item_Price(price_perHour: 2.0, price_discount_hours_percentage: nil, price_perDay: 12.0, price_discount_days_percentage: 5.0)
         )
     
 ]

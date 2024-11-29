@@ -10,7 +10,8 @@ struct AddToCartView: View {
 
     @State private var quantity: Int = 1
     @State private var startDate: Date = Date()
-    @State private var endDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+    @State private var endDate: Date = Calendar.current.date(byAdding: .hour, value: 1, to: Date())!
+    @State private var rentalDurationHours: Int = 1
 
     var body: some View {
         NavigationView {
@@ -26,15 +27,13 @@ struct AddToCartView: View {
                     }
                 }
 
-                Section(header: Text("Datas de Aluguel")) {
-                    DatePicker("Data de Início", selection: $startDate, in: Date()..., displayedComponents: [.date, .hourAndMinute])
-                        .onChange(of: startDate) { newValue in
-                            if endDate < newValue {
-                                endDate = Calendar.current.date(byAdding: .day, value: 1, to: newValue)!
-                            }
-                        }
-
-                    DatePicker("Data de Devolução", selection: $endDate, in: startDate..., displayedComponents: [.date, .hourAndMinute])
+                Section(header: Text("Duração do Aluguel (Horas)")) {
+                    Stepper(value: $rentalDurationHours, in: 1...48) {
+                        Text("\(rentalDurationHours) horas")
+                    }
+                    .onChange(of: rentalDurationHours) { newValue in
+                        endDate = Calendar.current.date(byAdding: .hour, value: newValue, to: startDate) ?? endDate
+                    }
                 }
 
                 Section {
@@ -53,10 +52,11 @@ struct AddToCartView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(orange1)
+                            .background(Color.orange)
                             .cornerRadius(10)
                     }
-                }.padding(-20)
+                }
+                .padding(-20)
             }
             .navigationTitle("Adicionar ao Carrinho")
         }

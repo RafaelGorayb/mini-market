@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct PaymentConfirmationView: View {
-    var onDismiss: () -> Void // Closure para fechar a sheet
-    @EnvironmentObject var cartManager: CartManager // Se você quiser limpar o carrinho
+    var order: Order
+    var onDismiss: () -> Void
+    @EnvironmentObject var cartManager: CartManager
+    @EnvironmentObject var orderManager: OrderManager // Adicionado
 
     var body: some View {
         VStack(spacing: 20) {
@@ -28,7 +30,9 @@ struct PaymentConfirmationView: View {
                 .padding(.horizontal)
             Spacer()
             Button(action: {
-                // Opcional: Limpar o carrinho
+                // Adicionar o pedido ao OrderManager
+                orderManager.addOrder(order)
+                // Limpar o carrinho
                 cartManager.items.removeAll()
                 // Fechar a sheet
                 onDismiss()
@@ -46,6 +50,7 @@ struct PaymentConfirmationView: View {
         .padding()
     }
 }
+
 
 
 //#Preview {

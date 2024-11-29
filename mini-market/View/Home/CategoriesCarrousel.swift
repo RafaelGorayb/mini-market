@@ -31,7 +31,7 @@ struct CategoriesCarrousel: View {
         let isSelected = selectedCategory == category
 
         VStack(spacing: 10) {
-            Image(systemName: "hammer.fill") // Troque o ícone conforme necessário
+            Image(systemName: category.iconName) // Obtendo o ícone específico
                 .resizable()
                 .scaledToFit()
                 .foregroundStyle(isSelected ? .white : .gray)
@@ -43,17 +43,16 @@ struct CategoriesCarrousel: View {
                 .foregroundColor(isSelected ? .white : .gray.opacity(0.75))
         }
         .frame(width: isSelected ? 75 : 65, height: isSelected ? 75 : 65)
-        .background(isSelected ? Color.orange : Color.gray.opacity(0.08))
+        .background(isSelected ? orange1 : Color.gray.opacity(0.08))
         .overlay {
             RoundedRectangle(cornerRadius: 10)
-                .stroke(isSelected ? Color.orange : Color.black.opacity(0.2), lineWidth: 1)
+                .stroke(isSelected ? orange1 : Color.black.opacity(0.2), lineWidth: 1)
         }
         .scaleEffect(isSelected ? 1.1 : 1.0) // Leve aumento de escala ao ser selecionado
         .animation(.linear(duration: 0.1), value: isSelected)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
-
 
 #Preview {
     @Previewable @State var selectedCategory: Item_Category? = nil

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var selectedCategory: Item_Category?
+    @State private var selectedCategory: Item_Category? = .all
     var body: some View {
         NavigationStack{
             ScrollView{
@@ -17,7 +17,7 @@ struct HomeView: View {
                     .onTapGesture {
                         print(selectedCategory?.rawValue)
                     }
-                ItemMarketList()
+                ItemMarketList(selectedCategory: selectedCategory)
             }
             .background(Color.gray.opacity(0.05))
         }

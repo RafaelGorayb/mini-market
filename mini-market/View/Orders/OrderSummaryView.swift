@@ -1,80 +1,129 @@
-//
-//  OrderSummaryView.swift
-//  mini-market
-//
-//  Created by Rafael Gorayb Correa on 05/11/24.
-//
-
 import SwiftUI
 
 struct OrderSummaryView: View {
-
     var order: Order
-    var onDismiss: () -> Void // Closure para fechar a sheet
+    var onDismiss: () -> Void
     @State private var selectedPaymentMethod: PaymentMethod = .creditCard
     @State private var showConfirmation = false
+    @EnvironmentObject var cartManager: CartManager
+    @EnvironmentObject var orderManager: OrderManager
 
     var body: some View {
         NavigationStack {
-            VStack {
-                List {
-                    ForEach(order.orderdetails, id: \.self) { detail in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(detail.item.name)
-                                    .font(.headline)
-                                Text("Retirada: \(detail.rentalDetails.start_date.formatted(.dateTime.month().day().hour().minute()))")
-                                    .font(.caption)
-                                Text("Devolução: \(detail.rentalDetails.check_out_date.formatted(.dateTime.month().day().hour().minute()))")
-                                    .font(.caption)
-                            }
-                            Spacer()
-                            VStack(alignment: .trailing) {
-                                Text("\(detail.totalHours)h x \(detail.item.price_info.price_perHour.formatted(.currency(code: "BRL")))/h")
-                                    .font(.subheadline)
-                            }
+            VStack(spacing: 0) {
+                // Opções de pagamento no topo
+                PaymentSelectionView(selectedPaymentMethod: $selectedPaymentMethod)
+                    .padding(.bottom)
+
+                // Resumo da compra
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Resumo da Compra")
+                            .font(.title2)
+                            .bold()
+                            .padding(.horizontal)
+
+                        ForEach(order.orderdetails, id: \.self) { detail in
+                            OrderDetailCard(detail: detail)
+                                .padding(.horizontal)
                         }
-                        .padding(.vertical, 5)
+                    }
+                    .padding(.top)
+                }
+
+                // Valor total e botão de pagamento
+                VStack(spacing: 16) {
+                    Divider()
+                    HStack {
+                        Text("Total:")
+                            .font(.title2)
+                            .bold()
+                        Spacer()
+                        Text(totalPrice.formatted(.currency(code: "BRL")))
+                            .font(.title2)
+                            .bold()
+                    }
+                    .padding(.horizontal)
+
+                    Button(action: {
+                        showConfirmation = true
+                    }) {
+                        Text("Pagar agora")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(orange1)
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                    .navigationDestination(isPresented: $showConfirmation) {
+                        PaymentConfirmationView(order: order, onDismiss: onDismiss)
+                            .navigationBarBackButtonHidden()
                     }
                 }
-
-                // Seleção de pagamento
-                PaymentSelectionView(selectedPaymentMethod: $selectedPaymentMethod)
-
-                HStack {
-                    Text("Total:")
-                        .font(.title2)
-                        .bold()
-                    Spacer()
-                    Text(totalPrice.formatted(.currency(code: "BRL")))
-                        .font(.title2)
-                        .bold()
-                }
-                .padding()
-
-                Button(action: {
-                    // Navegar para a tela de confirmação
-                    showConfirmation = true
-                }) {
-                    Text("Pagar agora")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(orange1)
-                        .cornerRadius(10)
-                }
-                .padding()
-                .navigationDestination(isPresented: $showConfirmation) {
-                    PaymentConfirmationView(onDismiss: onDismiss)
-                }
+                .background(Color(.systemBackground))
             }
+            .background(Color(.systemGroupedBackground))
             .navigationTitle("Resumo do Pedido")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 
     var totalPrice: Double {
         order.orderdetails.reduce(0) { $0 + $1.price }
+    }
+}
+
+struct OrderDetailCard: View {
+    var detail: OrderDetail
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(detail.item.name)
+                    .font(.headline)
+                Spacer()
+                Text("x\(detail.quantity)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+
+            HStack {
+                Text("Duração:")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Text("\(detail.totalHours) horas")
+                    .font(.subheadline)
+            }
+
+            HStack {
+                Text("Retirada:")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Text(detail.rentalDetails.start_date.formatted(date: .abbreviated, time: .shortened))
+                    .font(.subheadline)
+            }
+
+            HStack {
+                Text("Devolução:")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Text(detail.rentalDetails.check_out_date.formatted(date: .abbreviated, time: .shortened))
+                    .font(.subheadline)
+            }
+
+            HStack {
+                Spacer()
+                Text("Subtotal: \(detail.price.formatted(.currency(code: "BRL")))")
+                    .font(.subheadline)
+                    .bold()
+            }
+        }
+        .padding()
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(12)
     }
 }
 
@@ -85,39 +134,54 @@ enum PaymentMethod: String, CaseIterable, Identifiable {
     case applePay = "Apple Pay"
 
     var id: String { self.rawValue }
-}
 
+    var iconName: String {
+        switch self {
+        case .creditCard:
+            return "creditcard.fill"
+        case .debitCard:
+            return "banknote.fill"
+        case .pix:
+            return "qrcode"
+        case .applePay:
+            return "applelogo"
+        }
+    }
+}
 
 struct PaymentSelectionView: View {
     @Binding var selectedPaymentMethod: PaymentMethod
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Selecione o método de pagamento")
                 .font(.headline)
-                .padding(.bottom, 5)
+                .padding(.horizontal)
 
             ForEach(PaymentMethod.allCases) { method in
                 HStack {
                     Image(systemName: selectedPaymentMethod == method ? "largecircle.fill.circle" : "circle")
-                        .foregroundColor(selectedPaymentMethod == method ? .blue : .gray)
+                        .foregroundColor(selectedPaymentMethod == method ? .accentColor : .gray)
+
+                    Image(systemName: method.iconName)
+                        .foregroundColor(.primary)
+                        .frame(width: 24, height: 24)
+
                     Text(method.rawValue)
+                        .foregroundColor(.primary)
+
                     Spacer()
                 }
-                .contentShape(Rectangle())
+                .padding()
+                .background(Color(.secondarySystemGroupedBackground))
+                .cornerRadius(12)
                 .onTapGesture {
                     selectedPaymentMethod = method
                 }
-                .padding(.vertical, 5)
+                .padding(.horizontal)
             }
         }
-        .padding()
+        .padding(.top)
+        .background(Color(.systemBackground))
     }
 }
-
-
-
-
-
-
-

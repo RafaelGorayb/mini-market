@@ -32,7 +32,7 @@ struct DetailedItemMarketList: View {
                     
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("\(item.price_info.price_perDay.formatted(.currency(code: "BRL")))/h")
+                            Text("\(item.price_info.price_perHour.formatted(.currency(code: "BRL")))/h")
                                 .font(.system(size: 18, weight: .bold))
                             Text("Ou \(item.price_info.price_perHour.formatted(.currency(code: "BRL")))/h")
                                 .font(.system(size: 10, weight: .light))

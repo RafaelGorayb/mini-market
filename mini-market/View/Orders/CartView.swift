@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
-    @State private var showOrderSummary = false
+    @EnvironmentObject var orderManager: OrderManager // Adicionado
     @State private var order: Order?
 
     var body: some View {
@@ -31,9 +31,10 @@ struct CartView: View {
                     .padding()
                     .sheet(item: $order) { order in
                         OrderSummaryView(order: order) {
-                            // Este closure será chamado para fechar a sheet
-                            self.order = nil
+                            self.order = nil // Fechar a sheet
                         }
+                        .environmentObject(cartManager)
+                        .environmentObject(orderManager)
                     }
                 }
             } else{
@@ -75,14 +76,7 @@ struct CartListView: View {
                 
                 Text(item.item.price_info.price_perHour.formatted(.currency(code: "BRL")))
                     .font(.system(size: 12, weight: .black))
-                Spacer()
-                
-                VStack(alignment: .leading) {
-                    Text("Retirada: \n\(item.rentalDetails.start_date.formatted(.dateTime))")
-                    Text("Devolução: \n\(item.rentalDetails.check_out_date.formatted(.dateTime))")
-                        .padding(.top, 0.5)
-                }
-                .font(.system(size: 10, weight: .medium))
+
                 
                 Spacer()
             }

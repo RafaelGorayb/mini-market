@@ -12,6 +12,16 @@ struct ItemMarketList: View {
     let columns = [
         GridItem(.adaptive(minimum: 160), spacing: 10)
     ]
+    var selectedCategory: Item_Category?
+    var filteredItems: [Item] {
+        if selectedCategory == .all || selectedCategory == nil {
+            return items
+        } else if let category = selectedCategory {
+            return items.filter { $0.category == category }
+        } else {
+            return items
+        }
+    }
     
     @Namespace private var namespace // Namespace para a transição
     
@@ -19,7 +29,7 @@ struct ItemMarketList: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(items, id: \.self) { item in
+                    ForEach(filteredItems, id: \.self) { item in
                         NavigationLink {
                             DetailedItemMarketList(item: item, namespace: namespace)
                                 .navigationTitle("Detalhes do item")
@@ -72,12 +82,14 @@ struct ItemMarketList: View {
             .padding([.leading])
             
         }
-        
-        .frame(height: 204)
-        
         .padding(5)
-        
-    }
+            .background(Color.white)
+            .cornerRadius(15) // Cantos arredondados
+            .overlay(
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color.gray.opacity(0.2), lineWidth: 1) // Borda arredondada
+            )
+        }
 }
 
 #Preview {
