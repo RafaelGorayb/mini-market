@@ -87,7 +87,7 @@ struct ItemMarketList: View {
             .cornerRadius(15) // Cantos arredondados
             .overlay(
                 RoundedRectangle(cornerRadius: 15)
-                    .stroke(Color.gray.opacity(0.2), lineWidth: 1) // Borda arredondada
+                    .stroke(Color.gray.opacity(0.5), lineWidth: 1) // Borda arredondada
             )
         }
 }

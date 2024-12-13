@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HeaderView: View {
     var name: String
+    @Binding var isMenuOpen: Bool
+
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -17,6 +19,7 @@ struct HeaderView: View {
                 // Botão do menu à esquerda
                 Button(action: {
                     // Ação para o menu
+                    isMenuOpen.toggle()
                 }) {
                     Image(systemName: "line.horizontal.3")
                         .foregroundColor(.black)
@@ -59,5 +62,5 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView(name: "Rafael")
+    HeaderView(name: "Rafael", isMenuOpen: .constant(true))
 }
