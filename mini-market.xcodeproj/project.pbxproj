@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80B5EEF72D1B019800F4FC4D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 80B5EEF62D1B019800F4FC4D /* GoogleSignIn */; };
+		80B5EEF92D1B019800F4FC4D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 80B5EEF82D1B019800F4FC4D /* GoogleSignInSwift */; };
 		80C746E92D0BC74600377E83 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746E82D0BC74600377E83 /* Auth */; };
 		80C746EB2D0BC74600377E83 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746EA2D0BC74600377E83 /* Functions */; };
 		80C746ED2D0BC74600377E83 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746EC2D0BC74600377E83 /* PostgREST */; };
@@ -104,6 +106,7 @@
 				80C7470A2D0BCE3800377E83 /* FirebaseFunctions in Frameworks */,
 				80C747122D0BCE3800377E83 /* FirebasePerformance in Frameworks */,
 				80C747022D0BCE3800377E83 /* FirebaseDatabase in Frameworks */,
+				80B5EEF72D1B019800F4FC4D /* GoogleSignIn in Frameworks */,
 				80CC85E62D18CF73001F48E9 /* StripeFinancialConnections in Frameworks */,
 				80C747042D0BCE3800377E83 /* FirebaseDynamicLinks in Frameworks */,
 				80CC85EA2D18CF73001F48E9 /* StripePaymentSheet in Frameworks */,
@@ -121,6 +124,7 @@
 				80C746FC2D0BCE3800377E83 /* FirebaseAuth in Frameworks */,
 				80CC85EE2D18CF73001F48E9 /* StripePaymentsUI in Frameworks */,
 				80C746E92D0BC74600377E83 /* Auth in Frameworks */,
+				80B5EEF92D1B019800F4FC4D /* GoogleSignInSwift in Frameworks */,
 				80C747162D0BCE3800377E83 /* FirebaseVertexAI in Frameworks */,
 				80CC85E82D18CF73001F48E9 /* StripeIdentity in Frameworks */,
 				80CC85E22D18CF73001F48E9 /* StripeCardScan in Frameworks */,
@@ -218,6 +222,8 @@
 				80CC85E92D18CF73001F48E9 /* StripePaymentSheet */,
 				80CC85EB2D18CF73001F48E9 /* StripePayments */,
 				80CC85ED2D18CF73001F48E9 /* StripePaymentsUI */,
+				80B5EEF62D1B019800F4FC4D /* GoogleSignIn */,
+				80B5EEF82D1B019800F4FC4D /* GoogleSignInSwift */,
 			);
 			productName = "mini-market";
 			productReference = 80D3ADE22CD3F87D00FFD4ED /* mini-market.app */;
@@ -305,6 +311,7 @@
 				80C746E72D0BC74600377E83 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 				80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */,
+				80B5EEF52D1B019800F4FC4D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 80D3ADE32CD3F87D00FFD4ED /* Products */;
@@ -688,6 +695,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		80B5EEF52D1B019800F4FC4D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		80C746E72D0BC74600377E83 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift.git";
@@ -715,6 +730,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		80B5EEF62D1B019800F4FC4D /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80B5EEF52D1B019800F4FC4D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		80B5EEF82D1B019800F4FC4D /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80B5EEF52D1B019800F4FC4D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		80C746E82D0BC74600377E83 /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 80C746E72D0BC74600377E83 /* XCRemoteSwiftPackageReference "supabase-swift" */;

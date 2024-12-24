@@ -11,28 +11,98 @@ import SwiftUI
 
 struct SideMenuView: View {
     @Binding var isMenuOpen: Bool
-
+    @StateObject private var authService = AuthService.shared
+    @State private var showAuthFlow = false
+    
+    // Função para gerar feedback háptico
+    private func generateHapticFeedback() {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare() // Prepara o gerador para reduzir latência
+        generator.impactOccurred()
+    }
+    
     var body: some View {
-        ScrollView{
-                VStack(alignment: .leading){
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                // Profile Section
+                if authService.isAuthenticated, let user = authService.currentUser {
+                    VStack(alignment: .leading, spacing: 8) {
+                        // User Avatar/Circle with Initials
+                        Circle()
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(width: 60, height: 60)
+                            .overlay(
+                                Text(String(user.name.prefix(1)))
+                                    .font(.title)
+                                    .foregroundColor(.gray)
+                            )
+                        
+                        // User Info
+                        Text(user.name)
+                            .font(.headline)
+                        Text(user.email)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                    
+                    Divider()
+                    
+                    // Menu Items
                     Button(action: {
-                        // Ação para o primeiro item do menu
+                        // Navegar para perfil
                     }) {
-                        Text("Item do Menu 1")
+                        Label("Meu Perfil", systemImage: "person")
+                            .foregroundColor(.primary)
                             .padding()
                     }
+                    
                     Button(action: {
-                        // Ação para o segundo item do menu
+                        try? authService.signOut()
+                        isMenuOpen = false
                     }) {
-                        Text("Item do Menu 2")
+                        Label("Sair", systemImage: "rectangle.portrait.and.arrow.right")
+                            .foregroundColor(.red)
                             .padding()
                     }
-                    Spacer()
+                    
+                } else {
+                    // Login Button for non-authenticated users
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Bem-vindo!")
+                            .font(.headline)
+                            .padding()
+                        
+                        Button(action: {
+                            showAuthFlow = true
+                        }) {
+                            Label("Entrar / Cadastrar", systemImage: "person.circle")
+                                .foregroundColor(.primary)
+                                .padding()
+                        }
+                    }
                 }
+                
+                Spacer()
+            }
         }
         .frame(width: 250)
-        .background(Color.white)
-
+        .background(Color(.systemBackground))
+        .sheet(isPresented: $showAuthFlow) {
+            AuthenticationFlowView {
+                // Callback when authentication is completed
+                isMenuOpen = false
+            }
+        }
+        .onAppear {
+            generateHapticFeedback()
+        }
+        .onChange(of: isMenuOpen) { newValue in
+            if !newValue { // Quando o menu está fechando
+                generateHapticFeedback()
+            }
+        }
+        
     }
 }
 

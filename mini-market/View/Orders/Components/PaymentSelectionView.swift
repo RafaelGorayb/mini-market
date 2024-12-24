@@ -7,12 +7,13 @@
 
 import SwiftUI
 import Stripe
+import StripePaymentSheet
 
 struct PaymentSelectionView: View {
     @Binding var selectedPaymentMethod: SavedPaymentMethod?
     @State private var savedPaymentMethods: [SavedPaymentMethod] = []
     @State private var isLoading = false
-    @State private var showAddCard = false
+    @State private var paymentSheet: PaymentSheet?
     let customerId: String
     
     var body: some View {
@@ -32,21 +33,37 @@ struct PaymentSelectionView: View {
                         }
                 }
                 
-                Button(action: { showAddCard = true }) {
-                    Label("Adicionar novo cartão", systemImage: "plus.circle")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color(.secondarySystemBackground))
-                        .cornerRadius(12)
+                if let paymentSheet = paymentSheet {
+                    PaymentSheet.PaymentButton(
+                        paymentSheet: paymentSheet,
+                        onCompletion: { result in
+                            switch result {
+                            case .completed:
+                                Task {
+                                    await loadPaymentMethods()
+                                }
+                            case .failed(let error):
+                                print("Payment failed: \(error)")
+                            case .canceled:
+                                print("Payment canceled")
+                            }
+                        }
+                    ) {
+                        Label("Adicionar novo cartão", systemImage: "plus.circle")
+                    }
+                    .buttonStyle(.bordered)
+                    .padding(.horizontal)
+                    
+                } else {
+                    ProgressView()
                 }
-                .padding(.horizontal)
             }
         }
         .task {
-            await loadPaymentMethods()
+            await setupPaymentSheet()
         }
-        .sheet(isPresented: $showAddCard) {
-            AddCardView(customerId: customerId)
+        .task {
+            await loadPaymentMethods()
         }
     }
     
@@ -59,44 +76,26 @@ struct PaymentSelectionView: View {
         }
         isLoading = false
     }
-}
-
-struct AddCardView: View {
-    let customerId: String
-    @Environment(\.dismiss) var dismiss
-    @State private var isLoading = false
     
-    var body: some View {
-        VStack {
-            // Aqui você integraria o formulário de cartão do Stripe
-            // Usando o SDK do Stripe para iOS
-            
-            Button(action: {
-                Task {
-                    await addCard()
-                }
-            }) {
-                if isLoading {
-                    ProgressView()
-                } else {
-                    Text("Salvar cartão")
-                        .frame(maxWidth: .infinity)
-                }
-            }
-            .buttonStyle(.borderedProminent)
-            .padding()
-        }
-        .navigationTitle("Adicionar cartão")
-    }
-    
-    private func addCard() async {
+    private func setupPaymentSheet() async {
         isLoading = true
         do {
-            let clientSecret = try await StripeService.shared.createSetupIntent(customerId: customerId)
-            // Aqui você usaria o SDK do Stripe para confirmar o setupIntent
-            dismiss()
+            let setupIntent = try await StripeService.shared.createSetupIntent(customerId: customerId)
+            
+            var configuration = PaymentSheet.Configuration()
+            configuration.merchantDisplayName = "Mini Market"
+            configuration.customer = .init(id: customerId, ephemeralKeySecret: setupIntent.ephemeralKey)
+            
+            let paymentSheet = PaymentSheet(
+                setupIntentClientSecret: setupIntent.clientSecret,
+                configuration: configuration
+            )
+            
+            DispatchQueue.main.async {
+                self.paymentSheet = paymentSheet
+            }
         } catch {
-            print("Error adding card: \(error)")
+            print("Error setting up payment sheet: \(error)")
         }
         isLoading = false
     }

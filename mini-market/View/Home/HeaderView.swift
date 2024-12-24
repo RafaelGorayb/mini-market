@@ -18,7 +18,9 @@ struct HeaderView: View {
             HStack {
                 // Botão do menu à esquerda
                 Button(action: {
-                    // Ação para o menu
+                    let generator = UIImpactFeedbackGenerator(style: .medium)
+                    generator.prepare()
+                    generator.impactOccurred()
                     isMenuOpen.toggle()
                 }) {
                     Image(systemName: "line.horizontal.3")

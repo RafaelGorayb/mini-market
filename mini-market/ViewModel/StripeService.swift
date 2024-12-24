@@ -32,8 +32,8 @@ class StripeService {
         return response.paymentMethods
     }
     
-    func createSetupIntent(customerId: String) async throws -> String {
-        let url = URL(string: "\(baseURL)/add-payment-method")!
+    func createSetupIntent(customerId: String) async throws -> SetupIntentResponse {
+        let url = URL(string: "\(baseURL)/create-setup-intent")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -42,8 +42,7 @@ class StripeService {
         request.httpBody = try JSONEncoder().encode(body)
         
         let (data, _) = try await URLSession.shared.data(for: request)
-        let response = try JSONDecoder().decode(SetupIntentResponse.self, from: data)
-        return response.clientSecret
+        return try JSONDecoder().decode(SetupIntentResponse.self, from: data)
     }
     
     func processPayment(
@@ -93,30 +92,4 @@ class StripeService {
     
 }
 
-class PaymentAuthenticationController: NSObject, STPAuthenticationContext {
-    func authenticationPresentingViewController() -> UIViewController {
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        return scene?.windows.first?.rootViewController ?? UIViewController()
-    }
-}
 
-
-struct PaymentIntentResponse: Codable {
-    let clientSecret: String
-}
-
-struct PaymentMethodsResponse: Codable {
-    let paymentMethods: [SavedPaymentMethod]
-}
-
-struct SavedPaymentMethod: Codable, Identifiable {
-    let id: String
-    let last4: String
-    let brand: String
-    let expMonth: Int
-    let expYear: Int
-}
-
-struct SetupIntentResponse: Codable {
-    let clientSecret: String
-}
