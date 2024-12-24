@@ -96,10 +96,10 @@ struct DetailedItemMarketList: View {
 }
 
 
-#Preview {
-    @Previewable @Namespace var previewNamespace // Cria um namespace para o preview
-    DetailedItemMarketList(item: items[0], namespace: previewNamespace) // Passa o namespace criado para o preview
-}
+//#Preview {
+//    @Previewable @Namespace var previewNamespace // Cria um namespace para o preview
+//    DetailedItemMarketList(item: items[0], namespace: previewNamespace) // Passa o namespace criado para o preview
+//}
 
 
 extension Color {

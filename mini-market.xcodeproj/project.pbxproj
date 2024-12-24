@@ -12,6 +12,31 @@
 		80C746ED2D0BC74600377E83 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746EC2D0BC74600377E83 /* PostgREST */; };
 		80C746EF2D0BC74600377E83 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746EE2D0BC74600377E83 /* Storage */; };
 		80C746F32D0BCC7600377E83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80C746F22D0BCC7600377E83 /* GoogleService-Info.plist */; };
+		80C746F82D0BCE3800377E83 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746F72D0BCE3800377E83 /* FirebaseAnalytics */; };
+		80C746FA2D0BCE3800377E83 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746F92D0BCE3800377E83 /* FirebaseAppCheck */; };
+		80C746FC2D0BCE3800377E83 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746FB2D0BCE3800377E83 /* FirebaseAuth */; };
+		80C746FE2D0BCE3800377E83 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746FD2D0BCE3800377E83 /* FirebaseAuthCombine-Community */; };
+		80C747002D0BCE3800377E83 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 80C746FF2D0BCE3800377E83 /* FirebaseCore */; };
+		80C747022D0BCE3800377E83 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747012D0BCE3800377E83 /* FirebaseDatabase */; };
+		80C747042D0BCE3800377E83 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747032D0BCE3800377E83 /* FirebaseDynamicLinks */; };
+		80C747062D0BCE3800377E83 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747052D0BCE3800377E83 /* FirebaseFirestore */; };
+		80C747082D0BCE3800377E83 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747072D0BCE3800377E83 /* FirebaseFirestoreCombine-Community */; };
+		80C7470A2D0BCE3800377E83 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747092D0BCE3800377E83 /* FirebaseFunctions */; };
+		80C7470C2D0BCE3800377E83 /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 80C7470B2D0BCE3800377E83 /* FirebaseFunctionsCombine-Community */; };
+		80C7470E2D0BCE3800377E83 /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 80C7470D2D0BCE3800377E83 /* FirebaseInAppMessaging-Beta */; };
+		80C747102D0BCE3800377E83 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 80C7470F2D0BCE3800377E83 /* FirebaseMessaging */; };
+		80C747122D0BCE3800377E83 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747112D0BCE3800377E83 /* FirebasePerformance */; };
+		80C747142D0BCE3800377E83 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747132D0BCE3800377E83 /* FirebaseRemoteConfig */; };
+		80C747162D0BCE3800377E83 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 80C747152D0BCE3800377E83 /* FirebaseVertexAI */; };
+		80CC85DE2D18CF73001F48E9 /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85DD2D18CF73001F48E9 /* Stripe */; };
+		80CC85E02D18CF73001F48E9 /* StripeApplePay in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85DF2D18CF73001F48E9 /* StripeApplePay */; };
+		80CC85E22D18CF73001F48E9 /* StripeCardScan in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85E12D18CF73001F48E9 /* StripeCardScan */; };
+		80CC85E42D18CF73001F48E9 /* StripeConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85E32D18CF73001F48E9 /* StripeConnect */; };
+		80CC85E62D18CF73001F48E9 /* StripeFinancialConnections in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85E52D18CF73001F48E9 /* StripeFinancialConnections */; };
+		80CC85E82D18CF73001F48E9 /* StripeIdentity in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85E72D18CF73001F48E9 /* StripeIdentity */; };
+		80CC85EA2D18CF73001F48E9 /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85E92D18CF73001F48E9 /* StripePaymentSheet */; };
+		80CC85EC2D18CF73001F48E9 /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85EB2D18CF73001F48E9 /* StripePayments */; };
+		80CC85EE2D18CF73001F48E9 /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 80CC85ED2D18CF73001F48E9 /* StripePaymentsUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +64,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		80A8CE9A2CF3F9C500F60D9D /* Exceptions for "mini-market" folder in "mini-market" target */ = {
+		80CC85CC2D17574F001F48E9 /* Exceptions for "mini-market" folder in "mini-market" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -52,7 +77,7 @@
 		80D3ADE42CD3F87D00FFD4ED /* mini-market */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				80A8CE9A2CF3F9C500F60D9D /* Exceptions for "mini-market" folder in "mini-market" target */,
+				80CC85CC2D17574F001F48E9 /* Exceptions for "mini-market" folder in "mini-market" target */,
 			);
 			path = "mini-market";
 			sourceTree = "<group>";
@@ -74,10 +99,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80C747082D0BCE3800377E83 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				80CC85E02D18CF73001F48E9 /* StripeApplePay in Frameworks */,
+				80C7470A2D0BCE3800377E83 /* FirebaseFunctions in Frameworks */,
+				80C747122D0BCE3800377E83 /* FirebasePerformance in Frameworks */,
+				80C747022D0BCE3800377E83 /* FirebaseDatabase in Frameworks */,
+				80CC85E62D18CF73001F48E9 /* StripeFinancialConnections in Frameworks */,
+				80C747042D0BCE3800377E83 /* FirebaseDynamicLinks in Frameworks */,
+				80CC85EA2D18CF73001F48E9 /* StripePaymentSheet in Frameworks */,
 				80C746EF2D0BC74600377E83 /* Storage in Frameworks */,
 				80C746ED2D0BC74600377E83 /* PostgREST in Frameworks */,
 				80C746EB2D0BC74600377E83 /* Functions in Frameworks */,
+				80C747062D0BCE3800377E83 /* FirebaseFirestore in Frameworks */,
+				80C7470C2D0BCE3800377E83 /* FirebaseFunctionsCombine-Community in Frameworks */,
+				80C747142D0BCE3800377E83 /* FirebaseRemoteConfig in Frameworks */,
+				80C747102D0BCE3800377E83 /* FirebaseMessaging in Frameworks */,
+				80C746F82D0BCE3800377E83 /* FirebaseAnalytics in Frameworks */,
+				80C746FA2D0BCE3800377E83 /* FirebaseAppCheck in Frameworks */,
+				80CC85DE2D18CF73001F48E9 /* Stripe in Frameworks */,
+				80C7470E2D0BCE3800377E83 /* FirebaseInAppMessaging-Beta in Frameworks */,
+				80C746FC2D0BCE3800377E83 /* FirebaseAuth in Frameworks */,
+				80CC85EE2D18CF73001F48E9 /* StripePaymentsUI in Frameworks */,
 				80C746E92D0BC74600377E83 /* Auth in Frameworks */,
+				80C747162D0BCE3800377E83 /* FirebaseVertexAI in Frameworks */,
+				80CC85E82D18CF73001F48E9 /* StripeIdentity in Frameworks */,
+				80CC85E22D18CF73001F48E9 /* StripeCardScan in Frameworks */,
+				80C747002D0BCE3800377E83 /* FirebaseCore in Frameworks */,
+				80CC85E42D18CF73001F48E9 /* StripeConnect in Frameworks */,
+				80CC85EC2D18CF73001F48E9 /* StripePayments in Frameworks */,
+				80C746FE2D0BCE3800377E83 /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +193,31 @@
 				80C746EA2D0BC74600377E83 /* Functions */,
 				80C746EC2D0BC74600377E83 /* PostgREST */,
 				80C746EE2D0BC74600377E83 /* Storage */,
+				80C746F72D0BCE3800377E83 /* FirebaseAnalytics */,
+				80C746F92D0BCE3800377E83 /* FirebaseAppCheck */,
+				80C746FB2D0BCE3800377E83 /* FirebaseAuth */,
+				80C746FD2D0BCE3800377E83 /* FirebaseAuthCombine-Community */,
+				80C746FF2D0BCE3800377E83 /* FirebaseCore */,
+				80C747012D0BCE3800377E83 /* FirebaseDatabase */,
+				80C747032D0BCE3800377E83 /* FirebaseDynamicLinks */,
+				80C747052D0BCE3800377E83 /* FirebaseFirestore */,
+				80C747072D0BCE3800377E83 /* FirebaseFirestoreCombine-Community */,
+				80C747092D0BCE3800377E83 /* FirebaseFunctions */,
+				80C7470B2D0BCE3800377E83 /* FirebaseFunctionsCombine-Community */,
+				80C7470D2D0BCE3800377E83 /* FirebaseInAppMessaging-Beta */,
+				80C7470F2D0BCE3800377E83 /* FirebaseMessaging */,
+				80C747112D0BCE3800377E83 /* FirebasePerformance */,
+				80C747132D0BCE3800377E83 /* FirebaseRemoteConfig */,
+				80C747152D0BCE3800377E83 /* FirebaseVertexAI */,
+				80CC85DD2D18CF73001F48E9 /* Stripe */,
+				80CC85DF2D18CF73001F48E9 /* StripeApplePay */,
+				80CC85E12D18CF73001F48E9 /* StripeCardScan */,
+				80CC85E32D18CF73001F48E9 /* StripeConnect */,
+				80CC85E52D18CF73001F48E9 /* StripeFinancialConnections */,
+				80CC85E72D18CF73001F48E9 /* StripeIdentity */,
+				80CC85E92D18CF73001F48E9 /* StripePaymentSheet */,
+				80CC85EB2D18CF73001F48E9 /* StripePayments */,
+				80CC85ED2D18CF73001F48E9 /* StripePaymentsUI */,
 			);
 			productName = "mini-market";
 			productReference = 80D3ADE22CD3F87D00FFD4ED /* mini-market.app */;
@@ -228,6 +303,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				80C746E72D0BC74600377E83 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 80D3ADE32CD3F87D00FFD4ED /* Products */;
@@ -436,6 +513,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mini-market/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Ler Qrcode da loja";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -455,7 +533,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -472,6 +550,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mini-market/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Ler Qrcode da loja";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -491,7 +570,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -617,6 +696,22 @@
 				minimumVersion = 2.5.1;
 			};
 		};
+		80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+		80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -639,6 +734,131 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 80C746E72D0BC74600377E83 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Storage;
+		};
+		80C746F72D0BCE3800377E83 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		80C746F92D0BCE3800377E83 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		80C746FB2D0BCE3800377E83 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		80C746FD2D0BCE3800377E83 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		80C746FF2D0BCE3800377E83 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		80C747012D0BCE3800377E83 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		80C747032D0BCE3800377E83 /* FirebaseDynamicLinks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDynamicLinks;
+		};
+		80C747052D0BCE3800377E83 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		80C747072D0BCE3800377E83 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		80C747092D0BCE3800377E83 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		80C7470B2D0BCE3800377E83 /* FirebaseFunctionsCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFunctionsCombine-Community";
+		};
+		80C7470D2D0BCE3800377E83 /* FirebaseInAppMessaging-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseInAppMessaging-Beta";
+		};
+		80C7470F2D0BCE3800377E83 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		80C747112D0BCE3800377E83 /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
+		};
+		80C747132D0BCE3800377E83 /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
+		};
+		80C747152D0BCE3800377E83 /* FirebaseVertexAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80C746F62D0BCE3800377E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseVertexAI;
+		};
+		80CC85DD2D18CF73001F48E9 /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = Stripe;
+		};
+		80CC85DF2D18CF73001F48E9 /* StripeApplePay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeApplePay;
+		};
+		80CC85E12D18CF73001F48E9 /* StripeCardScan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeCardScan;
+		};
+		80CC85E32D18CF73001F48E9 /* StripeConnect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeConnect;
+		};
+		80CC85E52D18CF73001F48E9 /* StripeFinancialConnections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeFinancialConnections;
+		};
+		80CC85E72D18CF73001F48E9 /* StripeIdentity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeIdentity;
+		};
+		80CC85E92D18CF73001F48E9 /* StripePaymentSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePaymentSheet;
+		};
+		80CC85EB2D18CF73001F48E9 /* StripePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePayments;
+		};
+		80CC85ED2D18CF73001F48E9 /* StripePaymentsUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80CC85DC2D18CF73001F48E9 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePaymentsUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

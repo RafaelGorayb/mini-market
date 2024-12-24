@@ -9,13 +9,13 @@ struct AddToCartView: View {
     @Binding var showConfirmationAlert: Bool
 
     @State private var quantity: Int = 1
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Calendar.current.date(byAdding: .hour, value: 1, to: Date())!
     @State private var rentalDurationHours: Int = 1
+    @State private var startDate: Date = Date()
+    @State private var endDate: Date = Date()
 
     var body: some View {
         NavigationView {
-            Form {
+            List {
                 Section(header: Text("Detalhes do Item")) {
                     Text(item.name)
                         .font(.headline)
@@ -27,24 +27,35 @@ struct AddToCartView: View {
                     }
                 }
 
-                Section(header: Text("Duração do Aluguel (Horas)")) {
+                Section(header: Text("Duração do Aluguel")) {
                     Stepper(value: $rentalDurationHours, in: 1...48) {
                         Text("\(rentalDurationHours) horas")
                     }
-                    .onChange(of: rentalDurationHours) { newValue in
-                        endDate = Calendar.current.date(byAdding: .hour, value: newValue, to: startDate) ?? endDate
-                    }
                 }
+
+                Section(header: Text("Data e Hora de Retirada")) {
+                    DatePicker(
+                        "Selecione",
+                        selection: $startDate,
+                        in: Date()...,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    Text("Devolução: \(calculateEndDate().formatted(date: .abbreviated, time: .shortened))")
+                        .foregroundColor(.secondary)
+                }
+               
+
 
                 Section {
                     Button(action: {
-                        let rentalDetails = Rental_date_details(start_date: startDate, check_out_date: endDate)
+                        let rentalDetails = Rental_date_details(
+                            start_date: startDate,
+                            check_out_date: calculateEndDate()
+                        )
                         let cartItem = CartItem(item: item, quantity: quantity, rentalDetails: rentalDetails)
                         cartManager.addItem(cartItem)
 
-                        // Fechar a folha
                         isPresented = false
-                        // Exibir o popup de confirmação
                         showConfirmationAlert = true
                     }) {
                         Text("Confirmar Adição ao Carrinho")
@@ -52,7 +63,7 @@ struct AddToCartView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.orange)
+                            .background(orange1)
                             .cornerRadius(10)
                     }
                 }
@@ -61,9 +72,13 @@ struct AddToCartView: View {
             .navigationTitle("Adicionar ao Carrinho")
         }
     }
+    
+    private func calculateEndDate() -> Date {
+        Calendar.current.date(byAdding: .hour, value: rentalDurationHours, to: startDate) ?? startDate
+    }
 }
 
 #Preview {
-    AddToCartView(item: items[0], isPresented: .constant(true), showConfirmationAlert: .constant(false))
+    AddToCartView(item: itemsTest[0], isPresented: .constant(true), showConfirmationAlert: .constant(false))
         .environmentObject(CartManager())
 }

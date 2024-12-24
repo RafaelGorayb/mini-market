@@ -11,8 +11,8 @@ struct PaymentConfirmationView: View {
     var order: Order
     var onDismiss: () -> Void
     @EnvironmentObject var cartManager: CartManager
-    @EnvironmentObject var orderManager: OrderManager // Adicionado
-
+    @EnvironmentObject var orderManager: OrderManager
+    
     var body: some View {
         VStack(spacing: 20) {
             Spacer()
@@ -24,17 +24,14 @@ struct PaymentConfirmationView: View {
             Text("Pagamento Confirmado!")
                 .font(.largeTitle)
                 .bold()
-            Text("Seu pedido foi realizado com sucesso.")
+            Text("Seu pedido foi processado e confirmado com sucesso.")
                 .font(.title3)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             Spacer()
             Button(action: {
-                // Adicionar o pedido ao OrderManager
                 orderManager.addOrder(order)
-                // Limpar o carrinho
                 cartManager.items.removeAll()
-                // Fechar a sheet
                 onDismiss()
             }) {
                 Text("Concluir")

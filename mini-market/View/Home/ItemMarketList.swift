@@ -9,18 +9,21 @@ import SwiftUI
 
 // Supondo que `Item` já é Identifiable
 struct ItemMarketList: View {
+    @EnvironmentObject var products: ProductFetchManager
+    
     let columns = [
         GridItem(.adaptive(minimum: 160), spacing: 10)
     ]
     var selectedCategory: Item_Category?
+    
+    // Adicione esta propriedade para controlar o estado de carregamento
+    @State private var isLoading = false
+    
     var filteredItems: [Item] {
-        if selectedCategory == .all || selectedCategory == nil {
-            return items
-        } else if let category = selectedCategory {
-            return items.filter { $0.category == category }
-        } else {
-            return items
+        guard let category = selectedCategory, category != .all else {
+            return products.items
         }
+        return products.items.filter { $0.category == category }
     }
     
     @Namespace private var namespace // Namespace para a transição
@@ -28,27 +31,38 @@ struct ItemMarketList: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(filteredItems, id: \.self) { item in
-                        NavigationLink {
-                            DetailedItemMarketList(item: item, namespace: namespace)
-                                .navigationTitle("Detalhes do item")
-                                .navigationBarTitleDisplayMode(.inline)
-                                .navigationTransition(.zoom(sourceID: item.id, in: namespace))
-                        } label: {
-                            ItemMarket(item: item)
-                                .tint(.primary)
-                                .background(Color.white)
-                                .matchedTransitionSource(id: item.id, in: namespace)
-                                .cornerRadius(15)
-                                //.shadow(color: .black.opacity(0.05), radius: 15, x: 0, y: 4)
-                               
+                if isLoading {
+                    ProgressView()
+                        .padding()
+                } else {
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(filteredItems, id: \.id) { item in
+                            NavigationLink {
+                                DetailedItemMarketList(item: item, namespace: namespace)
+                                    .navigationTitle("Detalhes do item")
+                                    .navigationBarTitleDisplayMode(.inline)
+                                    .navigationTransition(.zoom(sourceID: item.id, in: namespace))
+                            } label: {
+                                ItemMarket(item: item)
+                                    .tint(.primary)
+                                    .background(Color.white)
+                                    .matchedTransitionSource(id: item.id, in: namespace)
+                                    .cornerRadius(15)
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
             }
-            
+        }
+        .onChange(of: selectedCategory) { _ in
+            withAnimation {
+                isLoading = true
+                // Pequeno delay para permitir a animação
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isLoading = false
+                }
+            }
         }
     }
     
@@ -93,5 +107,5 @@ struct ItemMarketList: View {
 }
 
 #Preview {
-    ItemMarketList()
+    ItemMarketList().environmentObject(ProductFetchManager())
 }

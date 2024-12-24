@@ -9,26 +9,46 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @EnvironmentObject var products: ProductFetchManager
     @EnvironmentObject var cartManager: CartManager
     @EnvironmentObject var orderManager: OrderManager
+    @State private var showOrderSummary = false
+    
     var body: some View {
-        TabView{
-            HomeView()
-                .tabItem{Label("Home", systemImage: "house")}
+        ZStack(alignment: .bottom) {
+            TabView {
+                HomeView().environmentObject(products)
+                    .tabItem { Label("Home", systemImage: "house") }
+                
+                CartView().environmentObject(cartManager)
+                    .tabItem {
+                        Label("Carrinho", systemImage: "cart")
+                    }
+                    .badge(cartManager.items.isEmpty ? 0 : cartManager.items.count)
+                
+                OrdersListView().environmentObject(orderManager)
+                    .tabItem { Label("Pedidos", systemImage: "list.bullet") }
+            }
             
-            CartView().environmentObject(cartManager)
-                .tabItem {
-                    Label("Carrinho", systemImage: "cart")                    
-                }  .badge(cartManager.items.isEmpty ? 0 : cartManager.items.count)
-            
-            OrdersListView().environmentObject(orderManager)
-                .tabItem{Label("Pedidos", systemImage: "list.bullet")}
-
+            if !cartManager.items.isEmpty {
+                CartSummaryOverlay(showOrderSummary: $showOrderSummary)
+            }
+        }
+        .sheet(isPresented: $showOrderSummary) {
+            OrderSummaryView(order: cartManager.createOrder()) {
+                showOrderSummary = false
+            }
+            .environmentObject(cartManager)
+            .environmentObject(orderManager)
+        }
+        .onAppear {
+            products.fetchProducts(from: "M4Z82fqK4bNVCmqA7vEj")
         }
     }
 }
 
 #Preview {
     ContentView().environmentObject(CartManager()).environmentObject(OrderManager())
+        .environmentObject(ProductFetchManager())
         
 }

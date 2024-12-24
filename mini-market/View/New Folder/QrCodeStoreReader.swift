@@ -7,6 +7,7 @@ struct QrCodeStoreReader: View {
     @Binding var scannedCode: String?
     @State private var isPresentingScanner = false
     
+    
     var body: some View {
         NavigationStack{
             VStack(spacing: 20) {

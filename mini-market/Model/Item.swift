@@ -7,10 +7,11 @@
 
 import Foundation
 import SwiftUICore
+import FirebaseFirestore
 
 
-struct Item: Hashable {
-    let id = UUID()
+struct Item: Hashable,Codable {
+    @DocumentID var id: String?
     let name: String
     let quantity_info: Item_Quantity
     let description: String
@@ -21,7 +22,7 @@ struct Item: Hashable {
     let price_info: Item_Price
 }
 
-struct Item_Price: Hashable {
+struct Item_Price: Hashable, Codable {
     let price_perHour: Double
     let price_discount_hours_percentage: Double?
     let price_perDay: Double
@@ -29,7 +30,7 @@ struct Item_Price: Hashable {
     
 }
 
-struct Item_Quantity: Hashable  {
+struct Item_Quantity: Hashable, Codable  {
     let quantity_total: Int
     let quantity_available: Int
 }
@@ -70,7 +71,7 @@ extension Item_Category {
 
 let organge1 = Color("#F16A26")
 
-let items: [Item] = [
+let itemsTest: [Item] = [
     Item(
         name: "Furadeira",
         quantity_info: Item_Quantity(quantity_total: 5, quantity_available: 3),
