@@ -4,7 +4,7 @@ import Stripe
 
 class StripeService {
     static let shared = StripeService()
-    private let baseURL = "https://stripe-payment-server.fly.dev"
+    private let baseURL = "https://minimarket-stripe-hgafijjn5a-rj.a.run.app"
     
     func createPaymentIntent(amount: Int, customerId: String) async throws -> String {
         let url = URL(string: "\(baseURL)/create-payment-intent")!
