@@ -9,8 +9,9 @@ import SwiftUI
 
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
-    @EnvironmentObject var orderManager: OrderManager // Adicionado
+    @EnvironmentObject var orderManager: OrderManager
     @State private var order: Order?
+    @Binding var selectedTab: Int
 
     var body: some View {
         NavigationStack {
@@ -31,16 +32,15 @@ struct CartView: View {
                     .padding()
                     .sheet(item: $order) { order in
                         OrderSummaryView(order: order) {
-                            self.order = nil // Fechar a sheet
+                            self.order = nil
                         }
                         .environmentObject(cartManager)
                         .environmentObject(orderManager)
                     }
                 }
-            } else{
-                Text("Carrinho vazio, adicione itens para continuar.")
+            } else {
+                EmptyCartView(selectedTab: $selectedTab)
             }
-                
         }
     }
 }
@@ -109,6 +109,45 @@ struct CartListView: View {
     }
 }
 
+struct EmptyCartView: View {
+    @Binding var selectedTab: Int
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "cart.badge.minus")
+                .font(.system(size: 70))
+                .foregroundColor(.gray)
+                .padding(.bottom, 10)
+            
+            Text("Seu carrinho está vazio")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            Text("Explore nossos produtos e encontre o que precisa")
+                .font(.body)
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            
+            Button(action: {
+                selectedTab = 0 // Muda para a tab Home
+            }) {
+                Text("Continuar Comprando")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(orange1)
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal, 40)
+            .padding(.top, 10)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground))
+    }
+}
+
 #Preview {
-    CartView().environmentObject(CartManager())
+    CartView(selectedTab: .constant(0)).environmentObject(CartManager())
 }

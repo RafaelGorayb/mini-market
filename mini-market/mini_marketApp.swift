@@ -33,6 +33,7 @@ struct mini_marketApp: App {
         WindowGroup {
 //            if let code = scannedCode {
                 ContentView()
+                    .preferredColorScheme(.light)
                     .environmentObject(cartManager)
                     .environmentObject(orderManager)
                     .environmentObject(productManager)

@@ -12,39 +12,39 @@ class CartManager: ObservableObject {
     @Published var deliveryDate: Rental_date_details?
     @Published var createdAt: Date = Date()
 
-//    init() {
-//        addTestItem() // Adiciona o item de teste ao iniciar o CartManager
-//    }
-//
-//    
-//    // Função temporária para adicionar um item de teste ao carrinho
-//    func addTestItem() {
-//        let testItem = CartItem(
-//           
-//            item: mini_market.Item(
-//                name: "Furadeira",
-//                quantity_info: mini_market.Item_Quantity(quantity_total: 5, quantity_available: 3),
-//                description: "Furadeira elétrica para uso doméstico e profissional, ideal para diversas superfícies.",
-//                image: "drill_image",
-//                category: .tool,
-//                createdAt: Date(timeIntervalSince1970: 1709793671), // Exemplo de data fixa
-//                rating: 4,
-//                price_info: mini_market.Item_Price(
-//                    price_perHour: 3.0,
-//                    price_discount_hours_percentage: 10.0,
-//                    price_perDay: 3.0,
-//                    price_discount_days_percentage: 15.0
-//                )
-//            ),
-//            quantity: 1,
-//            rentalDetails: mini_market.Rental_date_details(
-//                start_date: Date(timeIntervalSince1970: 1709793675), // Exemplo de data fixa
-//                check_out_date: Date(timeIntervalSince1970: 1709870075)
-//            )
-//        )
-//        
-//        items.append(testItem)
-//    }
+    init() {
+        addTestItem() // Adiciona o item de teste ao iniciar o CartManager
+    }
+
+    
+    // Função temporária para adicionar um item de teste ao carrinho
+    func addTestItem() {
+        let testItem = CartItem(
+           
+            item: mini_market.Item(
+                name: "Furadeira",
+                quantity_info: mini_market.Item_Quantity(quantity_total: 5, quantity_available: 3),
+                description: "Furadeira elétrica para uso doméstico e profissional, ideal para diversas superfícies.",
+                image: "drill_image",
+                category: .tool,
+                createdAt: Date(timeIntervalSince1970: 1709793671), // Exemplo de data fixa
+                rating: 4,
+                price_info: mini_market.Item_Price(
+                    price_perHour: 3.0,
+                    price_discount_hours_percentage: 10.0,
+                    price_perDay: 3.0,
+                    price_discount_days_percentage: 15.0
+                )
+            ),
+            quantity: 1,
+            rentalDetails: mini_market.Rental_date_details(
+                start_date: Date(timeIntervalSince1970: 1709793675), // Exemplo de data fixa
+                check_out_date: Date(timeIntervalSince1970: 1709870075)
+            )
+        )
+        
+        items.append(testItem)
+    }
 
     
     // Função para adicionar item ao carrinho
@@ -91,6 +91,7 @@ class CartManager: ObservableObject {
             updatedAt: Date(),
             orderdetails: orderDetails
         )
+        //print(order)
         return order
     }
     

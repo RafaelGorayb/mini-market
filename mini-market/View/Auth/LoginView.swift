@@ -47,7 +47,7 @@ struct LoginView: View {
                 Text("ou continue com")
                     .foregroundColor(.gray)
                 
-                HStack(spacing: 20) {
+                VStack(spacing: 20) {
                     // Google Sign In
                     Button(action: {
                         viewModel.signInWithGoogle()

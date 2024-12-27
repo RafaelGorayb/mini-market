@@ -22,6 +22,9 @@ class AuthService: ObservableObject {
             } else {
                 self?.currentUser = nil
                 self?.isAuthenticated = false
+                Task { @MainActor in
+                    PaymentViewModel.shared.clearPaymentMethods()
+                }
             }
         }
     }
@@ -108,6 +111,11 @@ class AuthService: ObservableObject {
                 DispatchQueue.main.async {
                     self.currentUser = user
                     self.isAuthenticated = true
+                }
+                
+                // Only load payment methods if stripeCustomerId exists
+                if let customerId = user.stripeCustomerId {
+                    await PaymentViewModel.shared.loadPaymentMethods(for: customerId)
                 }
             } catch {
                 print("Error fetching user: \(error)")

@@ -3,7 +3,7 @@ import Stripe
 
 class StripeAPIService {
     static let shared = StripeAPIService()
-    private let baseURL = "https://stripe-payment-server.fly.dev"
+    private let baseURL = "https://minimarket-stripe-hgafijjn5a-rj.a.run.app"
     
     private init() {}
     

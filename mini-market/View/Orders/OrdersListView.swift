@@ -15,8 +15,10 @@ struct OrdersListView: View {
             ScrollView {
                 LazyVStack(spacing: 12) {
                     ForEach(orderManager.orders) { order in
-                        orderRow(order: order)
-                            .padding(.horizontal)
+                        NavigationLink(destination: OrderPostPaymentDetailView(order: order)) {
+                            orderRow(order: order)
+                                .padding(.horizontal)
+                        }
                     }
                 }
                 .padding(.top)

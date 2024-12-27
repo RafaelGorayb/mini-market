@@ -11,8 +11,7 @@ import StripePaymentSheet
 
 struct PaymentSelectionView: View {
     @Binding var selectedPaymentMethod: SavedPaymentMethod?
-    @State private var savedPaymentMethods: [SavedPaymentMethod] = []
-    @State private var isLoading = false
+    @StateObject private var paymentViewModel = PaymentViewModel.shared
     @State private var paymentSheet: PaymentSheet?
     let customerId: String
     
@@ -22,11 +21,11 @@ struct PaymentSelectionView: View {
                 .font(.headline)
                 .padding(.horizontal)
             
-            if isLoading {
+            if paymentViewModel.isLoadingPaymentMethods {
                 ProgressView()
                     .frame(maxWidth: .infinity)
             } else {
-                ForEach(savedPaymentMethods) { method in
+                ForEach(paymentViewModel.savedPaymentMethods) { method in
                     PaymentMethodRow(method: method, isSelected: selectedPaymentMethod?.id == method.id)
                         .onTapGesture {
                             selectedPaymentMethod = method
@@ -39,9 +38,10 @@ struct PaymentSelectionView: View {
                         onCompletion: { result in
                             switch result {
                             case .completed:
-                                Task {
-                                    await loadPaymentMethods()
-                                }
+                                    Task {
+                                        await paymentViewModel.loadPaymentMethods(for: customerId)
+                                    }
+                                print("Payment completed")
                             case .failed(let error):
                                 print("Payment failed: \(error)")
                             case .canceled:
@@ -53,32 +53,15 @@ struct PaymentSelectionView: View {
                     }
                     .buttonStyle(.bordered)
                     .padding(.horizontal)
-                    
-                } else {
-                    ProgressView()
                 }
             }
         }
         .task {
             await setupPaymentSheet()
         }
-        .task {
-            await loadPaymentMethods()
-        }
-    }
-    
-    private func loadPaymentMethods() async {
-        isLoading = true
-        do {
-            savedPaymentMethods = try await StripeService.shared.getCustomerPaymentMethods(customerId: customerId)
-        } catch {
-            print("Error loading payment methods: \(error)")
-        }
-        isLoading = false
     }
     
     private func setupPaymentSheet() async {
-        isLoading = true
         do {
             let setupIntent = try await StripeService.shared.createSetupIntent(customerId: customerId)
             
@@ -97,6 +80,5 @@ struct PaymentSelectionView: View {
         } catch {
             print("Error setting up payment sheet: \(error)")
         }
-        isLoading = false
     }
 }

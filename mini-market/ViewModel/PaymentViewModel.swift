@@ -5,20 +5,28 @@ import Stripe
 @MainActor
 class PaymentViewModel: ObservableObject {
     @Published var savedPaymentMethods: [SavedPaymentMethod] = []
-    @Published var isLoading = false
+    @Published var isLoadingPaymentMethods = false
+    @Published var isProcessingPayment = false
     @Published var error: Error?
     
+    static let shared = PaymentViewModel()
     private let stripeAPI = StripeAPIService.shared
     
+    private init() {}
+    
+    func clearPaymentMethods() {
+        savedPaymentMethods = []
+    }
+    
     func loadPaymentMethods(for customerId: String) async {
-        isLoading = true
+        isLoadingPaymentMethods = true
         do {
             let response = try await stripeAPI.getCustomerPaymentMethods(customerId: customerId)
             savedPaymentMethods = response.paymentMethods
         } catch {
             self.error = error
         }
-        isLoading = false
+        isLoadingPaymentMethods = false
     }
     
     func processPayment(
@@ -27,8 +35,8 @@ class PaymentViewModel: ObservableObject {
         paymentMethodId: String,
         authenticationContext: STPAuthenticationContext
     ) async throws -> Bool {
-        isLoading = true
-        defer { isLoading = false }
+        isProcessingPayment = true
+        defer { isProcessingPayment = false }
         
         do {
             let response = try await stripeAPI.createPaymentIntent(amount: amount, customerId: customerId)

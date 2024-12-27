@@ -57,3 +57,7 @@ struct OrderResumeView: View {
         .cornerRadius(12)
     }
 }
+
+#Preview {
+    OrderResumeView(detail: ordertemplate.orderdetails[0])
+}

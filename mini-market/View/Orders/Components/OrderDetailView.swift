@@ -80,3 +80,7 @@ struct OrderPostPaymentDetailView: View {
         order.orderdetails.reduce(0) { $0 + $1.price }
     }
 }
+
+#Preview {
+    OrderPostPaymentDetailView(order: ordertemplate)
+}

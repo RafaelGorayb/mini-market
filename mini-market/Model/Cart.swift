@@ -14,7 +14,7 @@ struct CartItem: Identifiable, Hashable {
     var rentalDetails: Rental_date_details
 }
 
-struct Rental_date_details: Hashable {
+struct Rental_date_details: Hashable, Codable {
     let start_date: Date
     var check_out_date: Date
 }
