@@ -11,50 +11,48 @@ struct OrderResumeView: View {
     var detail: OrderDetail
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading) {
             HStack {
                 Text(detail.item.name)
-                    .font(.headline)
+                    .font(.callout).bold()
                 Spacer()
                 Text("x\(detail.quantity)")
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             HStack {
                 Text("Duração:")
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundColor(.secondary)
                 Text("\(detail.totalHours) horas")
-                    .font(.subheadline)
+                    .font(.caption)
             }
 
             HStack {
                 Text("Retirada:")
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundColor(.secondary)
                 Text(detail.rentalDetails.start_date.formatted(date: .abbreviated, time: .shortened))
-                    .font(.subheadline)
+                    .font(.caption)
             }
 
             HStack {
                 Text("Devolução:")
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundColor(.secondary)
                 Text(detail.rentalDetails.check_out_date.formatted(date: .abbreviated, time: .shortened))
-                    .font(.subheadline)
+                    .font(.caption)
             }
-
             HStack {
                 Spacer()
-                Text("Subtotal: \(detail.price.formatted(.currency(code: "BRL")))")
-                    .font(.subheadline)
+                Text("\(detail.price.formatted(.currency(code: "BRL")))")
+                    .font(.caption)
                     .bold()
             }
+           
         }
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
+        .background(Color.clear)
     }
 }
 

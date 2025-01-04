@@ -5,11 +5,11 @@ struct PaymentIntentResponse: Codable {
     let clientSecret: String
 }
 
-struct PaymentMethodsResponse: Codable {
+struct PaymentMethodsResponse: Codable, Equatable {
     let paymentMethods: [SavedPaymentMethod]
 }
 
-struct SavedPaymentMethod: Codable, Identifiable {
+struct SavedPaymentMethod: Codable, Identifiable, Equatable {
     let id: String
     let last4: String
     let brand: String

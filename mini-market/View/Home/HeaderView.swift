@@ -10,8 +10,8 @@ import SwiftUI
 struct HeaderView: View {
     var name: String
     @Binding var isMenuOpen: Bool
+    @State private var showSearch = false
 
-    
     var body: some View {
         VStack(alignment: .leading) {
             
@@ -33,7 +33,7 @@ struct HeaderView: View {
             
             // Botão de busca à direita
             Button(action: {
-                // Ação para busca
+                showSearch.toggle()
             }) {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.black)
@@ -59,7 +59,9 @@ struct HeaderView: View {
         }
         .padding([.leading, .trailing])
         .clipShape(RoundedRectangle(cornerRadius: 20))
-       
+        .sheet(isPresented: $showSearch) {
+            SearchView()
+        }
     }
 }
 

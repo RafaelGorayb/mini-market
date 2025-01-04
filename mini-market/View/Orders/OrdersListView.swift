@@ -14,6 +14,12 @@ struct OrdersListView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 12) {
+                    if orderManager.orders.isEmpty {
+                        Text("DEBUG: No orders found")
+                            .foregroundColor(.gray)
+                            .padding()
+                    }
+                    
                     ForEach(orderManager.orders) { order in
                         NavigationLink(destination: OrderPostPaymentDetailView(order: order)) {
                             orderRow(order: order)
@@ -26,54 +32,90 @@ struct OrdersListView: View {
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Meus Pedidos")
         }
+        .onAppear {
+            print("DEBUG: OrdersListView appeared with \(orderManager.orders.count) orders")
+            orderManager.loadUserOrders()
+        }
     }
 
     @ViewBuilder
     func orderRow(order: Order) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            // Imagens e nomes dos itens
+            // Header with Order ID and Date
+            HStack {
+                Text("#\(order.id.uuidString.prefix(6))")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(order.createdAt.formatted(date: .abbreviated, time: .shortened))
+                    .font(.system(size: 14))
+                    .foregroundColor(.secondary)
+            }
+            
+            Divider()
+            
+            // Items section
             HStack(alignment: .center, spacing: 12) {
-                // ItemImageStack para exibir imagens dos itens
                 ItemImageStack(items: order.orderdetails.map { $0.item })
                     .frame(width: 60, height: 60)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    // Nomes dos itens
+                VStack(alignment: .leading, spacing: 6) {
+                    // Item names
                     let itemNames = order.orderdetails.map { $0.item.name }
-                    let displayedNames = itemNames.prefix(3).joined(separator: ", ")
+                    let displayedNames = itemNames.prefix(2).joined(separator: ", ")
                     Text(displayedNames)
-                        .font(.headline)
+                        .font(.system(size: 16, weight: .medium))
                         .lineLimit(1)
                         .truncationMode(.tail)
 
-                    // "+ N itens" se houver mais de 3 itens
-                    if itemNames.count > 3 {
-                        Text("+ \(itemNames.count - 3) itens")
-                            .font(.subheadline)
+                    if itemNames.count > 2 {
+                        Text("+ \(itemNames.count - 2) itens")
+                            .font(.system(size: 14))
                             .foregroundColor(.secondary)
                     }
-                    // Mensagem de status
-                    Text(orderStatusMessage(for: order.status))
-                        .font(.subheadline)
-                        .foregroundColor(order.status.color)
+                    
+                    // Pickup time for pending orders
+                    if order.status == .pending, !order.orderdetails.isEmpty {
+                        HStack(spacing: 4) {
+                            Image(systemName: "clock")
+                                .font(.system(size: 12))
+                            Text("Retirar em: \(order.orderdetails[0].rentalDetails.start_date.formatted(date: .abbreviated, time: .shortened))")
+                                .font(.system(size: 12))
+                        }
+                        .foregroundColor(.orange)
+                    }
+                    
+                    // Status with icon
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(order.status.color)
+                            .frame(width: 8, height: 8)
+                        Text(orderStatusMessage(for: order.status))
+                            .font(.system(size: 14))
+                            .foregroundColor(order.status.color)
+                    }
                 }
             }
 
-
-            // Botão "Ler QRCode"
-            NavigationLink(destination: QRCodeReaderView(order: order).environmentObject(orderManager)) {
-                Label("Ler QRCode", systemImage: "qrcode")
-                    .font(.system(size: 16, weight: .semibold))
+            // QR Code button
+            if order.status != .returned && order.status != .cancelled {
+                NavigationLink(destination: QRCodeReaderView(order: order).environmentObject(orderManager)) {
+                    HStack {
+                        Image(systemName: "qrcode.viewfinder")
+                        Text("Ler QR Code")
+                    }
+                    .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .padding()
+                    .padding(.vertical, 12)
                     .background(orange1)
-                    .cornerRadius(10)
-                    .opacity(order.status == .returned ? 0 : 1)
+                    .cornerRadius(8)
+                }
             }
-            .disabled(order.status == .returned || order.status == .cancelled)
-
-
         }
         .padding()
         .background(Color(.systemBackground))

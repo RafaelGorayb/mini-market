@@ -31,11 +31,9 @@ struct CartSummaryOverlay: View {
             }
             .padding()
             .background(Color(.systemBackground))
-            .cornerRadius(12)
             .shadow(radius: 5)
-            .padding(.horizontal)
         }
-        .padding(.bottom, 49) // Height of TabBar
+        .padding(.bottom, 50) // Height of TabBar
         .transition(.move(edge: .bottom))
     }
     

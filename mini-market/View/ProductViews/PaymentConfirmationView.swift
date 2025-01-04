@@ -30,8 +30,6 @@ struct PaymentConfirmationView: View {
                 .padding(.horizontal)
             Spacer()
             Button(action: {
-                orderManager.addOrder(order)
-                cartManager.items.removeAll()
                 onDismiss()
             }) {
                 Text("Concluir")

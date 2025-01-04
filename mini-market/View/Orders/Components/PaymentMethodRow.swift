@@ -15,6 +15,22 @@ struct PaymentMethodRow: View {
     
     var body: some View {
         HStack {
+            // Indicador de seleção
+            if isSelected {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.blue)
+            } else {
+                Circle()
+                    .strokeBorder(Color.gray.opacity(0.3), lineWidth: 1)
+                    .background(
+                        Circle()
+                            .fill(.clear)
+                            .padding(4)
+                    )
+                    .frame(width: 20, height: 20)
+            }
+            
+            
             // Ícone da bandeira do cartão
             Image(method.brand.lowercased())
                 .resizable()
@@ -35,11 +51,6 @@ struct PaymentMethodRow: View {
             
             Spacer()
             
-            // Indicador de seleção
-            if isSelected {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.blue)
-            }
         }
         .padding()
         .background(
@@ -47,6 +58,7 @@ struct PaymentMethodRow: View {
                 .fill(Color(.secondarySystemBackground))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
+                        .fill(isSelected ? Color.white.opacity(0.3) : Color.clear)
                         .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2)
                 )
         )
@@ -81,6 +93,7 @@ struct PaymentMethodRow_Previews: PreviewProvider {
             )
         }
         .padding()
+        .background(Color(.clear))
         .previewLayout(.sizeThatFits)
     }
 }

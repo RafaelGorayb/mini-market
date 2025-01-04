@@ -16,11 +16,7 @@ struct PaymentSelectionView: View {
     let customerId: String
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Selecione o método de pagamento")
-                .font(.headline)
-                .padding(.horizontal)
-            
+        VStack(alignment: .leading, spacing: 16) {            
             if paymentViewModel.isLoadingPaymentMethods {
                 ProgressView()
                     .frame(maxWidth: .infinity)

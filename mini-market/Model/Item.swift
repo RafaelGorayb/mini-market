@@ -10,7 +10,7 @@ import SwiftUICore
 import FirebaseFirestore
 
 
-struct Item: Hashable,Codable {
+struct Item: Hashable, Identifiable, Codable {
     @DocumentID var id: String?
     let name: String
     let quantity_info: Item_Quantity

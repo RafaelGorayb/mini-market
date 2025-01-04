@@ -19,120 +19,133 @@ struct OrderSummaryView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                    // Resumo da compra
-                    ScrollView {
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Payment Method Section
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("Resumo da Compra")
-                                .font(.title2)
-                                .bold()
+                            Text("Método de pagamento")
+                                .font(.headline)
+                                .foregroundColor(.primary)
                                 .padding(.horizontal)
-
+                            
+                            if authService.isAuthenticated {
+                                PaymentSelectionView(
+                                    selectedPaymentMethod: $selectedPaymentMethod,
+                                    customerId: authService.currentUser?.stripeCustomerId ?? ""
+                                )
+                            } else {
+                                AuthenticationFlowView {
+                                    Task {
+                                        if let customerId = authService.currentUser?.stripeCustomerId {
+                                            await paymentViewModel.loadPaymentMethods(for: customerId)
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal)
+                            }
+                        }
+                    
+                    }
+                    .padding(.vertical)
+                }
+                
+                // Bottom Section with Total and Payment Button
+                VStack{
+                    // Order Summary Section
+                    VStack(alignment: .leading) {
+                        Text("Resumo do pedido:")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        
+                        VStack {
                             ForEach(order.orderdetails, id: \.self) { detail in
                                 OrderResumeView(detail: detail)
-                                    .padding(.horizontal)
-                            }
-                        }
-                        .padding(.top)
-                    }
-                
-                if authService.isAuthenticated {
-                    PaymentSelectionView(
-                        selectedPaymentMethod: $selectedPaymentMethod,
-                        customerId: authService.currentUser?.stripeCustomerId ?? ""
-                    )
-                    .padding(.bottom)
-                    
-                } else {
-                    VStack(spacing: 20) {
-                        Text("Entre ou cadastre-se para continuar")
-                            .font(.headline)
-                        
-                        Button(action: {
-                            showAuthFlow = true
-                        }) {
-                            Text("Entrar / Cadastrar")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(orange1)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                    }
-                    .padding()
-                }
-
-                    // Valor total e botão de pagamento
-                    VStack(spacing: 16) {
-                        Divider()
-                        HStack {
-                            Text("Total:")
-                                .font(.title3)
-                                .bold()
-                            Spacer()
-                            Text(totalPrice.formatted(.currency(code: "BRL")))
-                                .font(.title3)
-                                .fontWeight(.medium)
-                        }
-                        .padding(.horizontal)
-                        Button(action: {
-                            Task {
-                                do {
-                                    guard let paymentMethod = selectedPaymentMethod else { return }
-                                    guard let customerId = authService.currentUser?.stripeCustomerId else { return }
-                                    
-                                    let amount = Int(totalPrice * 100)
-                                    let success = try await paymentViewModel.processPayment(
-                                        amount: amount,
-                                        customerId: customerId,
-                                        paymentMethodId: paymentMethod.id,
-                                        authenticationContext: authenticationController
-                                    )
-                                    
-                                    if success {
-                                        orderManager.addOrder(order)
-                                        cartManager.items.removeAll()
-                                        showConfirmation = true
-                                    }
-                                } catch {
-                                    print("Error processing payment: \(error)")
+                                
+                                if detail != order.orderdetails.last {
+                                    Divider()
+                                       
                                 }
                             }
-                        }, label: {
-                            if paymentViewModel.isProcessingPayment {
-                                ProgressView()
-                            } else {
-                                Text("Pagar agora")
-                            }
-                        })
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .foregroundStyle(Color.primary)
-                        .background(orange1)
-                        .cornerRadius(12)
-                        .padding()
-                        .disabled(selectedPaymentMethod == nil || paymentViewModel.isProcessingPayment)
-                        .navigationDestination(isPresented: $showConfirmation) {
-                            PaymentConfirmationView(order: order, onDismiss: onDismiss)
-                                .navigationBarBackButtonHidden()
                         }
+                        .padding()
+                        .background(Color.gray.opacity(0.15))
+                        .cornerRadius(12)
                     }
-                    .background(Color(.systemBackground))
+                    
+                    HStack {
+                        Text("Total:")
+                            .font(.headline)
+                        Spacer()
+                        Text(totalPrice.formatted(.currency(code: "BRL")))
+                            .font(.headline)
+                            
+                    }
+                    .padding(.vertical)
+                    
+                    paymentButton()
+
+                }
+                .padding()
+                .background(Color(.systemBackground))
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle("Resumo do Pedido")
+            .navigationTitle("Pagamento")
             .navigationBarTitleDisplayMode(.inline)
-        }
-        .sheet(isPresented: $showAuthFlow) {
-            AuthenticationFlowView {
-                // Callback quando a autenticação for concluída
-                // Aqui você pode recarregar os dados necessários
-                Task {
-                    if let customerId = authService.currentUser?.stripeCustomerId {
-                        await paymentViewModel.loadPaymentMethods(for: customerId)
-                    }
-                }
+            .navigationDestination(isPresented: $showConfirmation) {
+                PaymentConfirmationView(order: order, onDismiss: onDismiss)
+                    .navigationBarBackButtonHidden()
             }
         }
+    }
+    
+    @ViewBuilder
+    func paymentButton() -> some View {
+        Button(action: {
+            Task {
+                do {
+                    guard let paymentMethod = selectedPaymentMethod else { return }
+                    guard let customerId = authService.currentUser?.stripeCustomerId else { return }
+                    
+                    let amount = Int(totalPrice * 100)
+                    let success = try await paymentViewModel.processPayment(
+                        amount: amount,
+                        customerId: customerId,
+                        paymentMethodId: paymentMethod.id,
+                        authenticationContext: authenticationController
+                    )
+                    
+                    if success {
+                        // Primeiro, adiciona o pedido e aguarda a conclusão
+                        await orderManager.addOrder(order)
+                        
+                        // Após confirmar que o pedido foi adicionado, atualiza a UI
+                        await MainActor.run {
+                            cartManager.items.removeAll()
+                            showConfirmation = true
+                        }
+                    }
+                } catch {
+                    print("Error processing payment: \(error)")
+                }
+            }
+        }) {
+            HStack {
+                if paymentViewModel.isProcessingPayment {
+                    ProgressView()
+                        .tint(.white)
+                } else {
+                    Text("Pagar")
+                        .font(.headline)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
+            .background(orange1)
+            .foregroundColor(.white)
+            .cornerRadius(12)
+        }
+        .disabled(selectedPaymentMethod == nil || paymentViewModel.isProcessingPayment)
+        .opacity(selectedPaymentMethod == nil ? 0.5 : 1)
     }
 
     var totalPrice: Double {
@@ -141,7 +154,13 @@ struct OrderSummaryView: View {
 }
 
 
-
+#Preview {
+    OrderSummaryView(order: ordertemplate, onDismiss:({}))
+        .environmentObject(CartManager())
+        .environmentObject(OrderManager())
+        .environmentObject(AuthService())
+    
+}
 
 
 

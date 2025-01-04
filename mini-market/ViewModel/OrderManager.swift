@@ -12,41 +12,65 @@ import SwiftUICore
 class OrderManager: ObservableObject {
     @Published var orders: [Order] = []
     private let db = Firestore.firestore()
-    @StateObject private var authService = AuthService.shared
+    private let authService = AuthService.shared
     
     init() {
         loadUserOrders()
     }
     
     func loadUserOrders() {
-        guard let userId = authService.currentUser?.id else { return }
+        guard let userId = authService.currentUser?.id else {
+            print("DEBUG: No user ID found when loading orders")
+            return 
+        }
+        
+        print("DEBUG: Loading orders for user ID: \(userId)")
         
         db.collection("users")
             .document(userId)
             .collection("orders")
             .addSnapshotListener { [weak self] snapshot, error in
-                guard let documents = snapshot?.documents else {
-                    print("Error fetching orders: \(error?.localizedDescription ?? "Unknown error")")
+                if let error = error {
+                    print("DEBUG: Error fetching orders: \(error.localizedDescription)")
                     return
                 }
                 
-                self?.orders = documents.compactMap { document in
-                    try? document.data(as: Order.self)
+                guard let documents = snapshot?.documents else {
+                    print("DEBUG: No documents found in snapshot")
+                    return
                 }
+                
+                print("DEBUG: Found \(documents.count) orders")
+                
+                self?.orders = documents.compactMap { document in
+                    if let order = try? document.data(as: Order.self) {
+                        print("DEBUG: Successfully decoded order \(order.id)")
+                        return order
+                    } else {
+                        print("DEBUG: Failed to decode order from document \(document.documentID)")
+                        return nil
+                    }
+                }
+                
+                print("DEBUG: Final orders count: \(self?.orders.count ?? 0)")
             }
     }
     
-    func addOrder(_ order: Order) {
+    func addOrder(_ order: Order) async {
         guard let userId = authService.currentUser?.id else { return }
         
         do {
-            try db.collection("users")
+            // Operação assíncrona do Firestore
+            try await db.collection("users")
                 .document(userId)
                 .collection("orders")
                 .document(order.id.uuidString)
                 .setData(from: order)
             
-            orders.append(order)
+            // Atualiza a UI na thread principal
+            await MainActor.run {
+                orders.append(order)
+            }
         } catch {
             print("Error saving order: \(error.localizedDescription)")
         }

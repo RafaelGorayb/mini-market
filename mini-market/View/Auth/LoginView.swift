@@ -11,11 +11,6 @@ struct LoginView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                Text("Mini Market")
-                    .font(.largeTitle)
-                    .bold()
-                
                 VStack(spacing: 15) {
                     TextField("Email", text: $viewModel.email)
                         .textFieldStyle(.roundedBorder)
@@ -47,7 +42,7 @@ struct LoginView: View {
                 Text("ou continue com")
                     .foregroundColor(.gray)
                 
-                VStack(spacing: 20) {
+                HStack(spacing: 20) {
                     // Google Sign In
                     Button(action: {
                         viewModel.signInWithGoogle()
@@ -55,11 +50,7 @@ struct LoginView: View {
                         Image("google-icon")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 24, height: 24)
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .clipShape(Circle())
-                            .shadow(radius: 2)
+                            .frame(width: 64, height: 44)
                     }
                     
                     // Apple Sign In
@@ -73,6 +64,7 @@ struct LoginView: View {
                     }
                     .frame(width: 44, height: 44)
                 }
+                .frame(maxWidth: .infinity)
                 
                 Spacer()
                 
@@ -91,7 +83,8 @@ struct LoginView: View {
                 Text(viewModel.errorMessage)
             }
         }
-    }
 }
 
-
+#Preview {
+    LoginView().environmentObject(LoginViewModel())
+}

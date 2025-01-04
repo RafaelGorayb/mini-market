@@ -21,14 +21,6 @@ struct AuthenticationFlowView: View {
                 } else {
                     SignUpView()
                 }
-                
-                Button(action: {
-                    showLogin.toggle()
-                }) {
-                    Text(showLogin ? "Não tem uma conta? Cadastre-se" : "Já tem uma conta? Entre")
-                        .foregroundColor(.blue)
-                }
-                .padding()
             }
         }
         .onChange(of: authService.isAuthenticated) { isAuthenticated in
